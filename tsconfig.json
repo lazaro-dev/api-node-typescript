@@ -27,7 +27,8 @@
       "./test"
     ],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "types": ["jest", "node"]
   },
   "include": [
     "./src/**/*.ts",
