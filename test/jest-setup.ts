@@ -1,6 +1,7 @@
 import { SetupServer } from '@src/server';
 import supertest from 'supertest';
 
+jest.setTimeout(30000);
 let server: SetupServer;
 beforeAll( async () => {
   server = new SetupServer();
