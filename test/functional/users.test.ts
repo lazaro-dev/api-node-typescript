@@ -35,7 +35,7 @@ describe('Users functional tests', () => {
       expect(response.status).toBe(400);
       expect(response.body).toEqual({
         code: 400,
-        // error: 'Bad Request',
+        error: 'Bad Request',
         message: 'User validation failed: name: Path `name` is required.',
       });
     });
@@ -52,7 +52,7 @@ describe('Users functional tests', () => {
       expect(response.status).toBe(409);
       expect(response.body).toEqual({
         code: 409,
-        // error: 'Conflict',
+        error: 'Conflict',
         message: 'User validation failed: email: already exists in the database.',
       });
     });

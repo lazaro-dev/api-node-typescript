@@ -13,10 +13,10 @@ export abstract class BaseController {
       const clientErrors = this.handleClientErrors(error);
       res
         .status(clientErrors.code)
-        .send({
+        .send(ApiError.format({
           code: clientErrors.code,
           message: clientErrors.error,
-        });
+        }));
     } else {
       logger.error(error);
       res.status(500).send(ApiError.format({ code: 500, message: 'Something went wrong!' }));
