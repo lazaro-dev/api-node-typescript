@@ -14,6 +14,7 @@ import apiSchema from './api.schema.json';
 import swaggerUi from 'swagger-ui-express';
 import * as OpenApiValidator from 'express-openapi-validator';
 import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
+import { apiErrorValidator } from './middlewares/api-error-validator';
 
 export class SetupServer extends Server {
   private server?: http.Server;
@@ -26,6 +27,7 @@ export class SetupServer extends Server {
     this.docsSetup();
     this.setupControllers();
     await this.databaseSetup();
+    this.setupErrorHandlers();
   }
 
   private setupExpress(): void {
@@ -36,6 +38,10 @@ export class SetupServer extends Server {
     this.app.use(cors({ //origin...travar o dominio para impedir clonagem de pagina para realizar requisição
       origin: '*'
     }));
+  }
+
+  private setupErrorHandlers(): void {
+    this.app.use(apiErrorValidator);
   }
 
   private setupControllers(): void {

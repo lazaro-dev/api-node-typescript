@@ -61,6 +61,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Already exists",
+                  "code": "409",
+                  "error": "Conflict"
+                }
+              }
+            }
           }
         }
       }
