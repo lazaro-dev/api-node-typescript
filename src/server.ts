@@ -10,6 +10,10 @@ import logger from './logger';
 import * as http from 'http';
 import cors from 'cors';
 import expressPino from 'express-pino-logger';
+import apiSchema from './api.schema.json';
+import swaggerUi from 'swagger-ui-express';
+import * as OpenApiValidator from 'express-openapi-validator';
+import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
 
 export class SetupServer extends Server {
   private server?: http.Server;
@@ -19,6 +23,7 @@ export class SetupServer extends Server {
 
   public async init(): Promise<void> {
     this.setupExpress();
+    this.docsSetup();
     this.setupControllers();
     await this.databaseSetup();
   }
@@ -40,6 +45,15 @@ export class SetupServer extends Server {
     this.addControllers([forecastController, beachesController, usersController]);
   }
 
+  private async docsSetup(): Promise<void> {
+     this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSchema));
+     this.app.use( OpenApiValidator.middleware({
+       apiSpec: apiSchema as OpenAPIV3.Document,
+       validateRequests: true,
+       validateResponses: true,
+     }));
+  }
+
   public getApp(): Application {
     return this.app;
   }
@@ -53,7 +67,7 @@ export class SetupServer extends Server {
   }
 
   public start(): void {
-    this.app.listen(this.port, () => {
+    this.server = this.app.listen(this.port, () => {
       logger.info('Server listening of port: ', this.port);
     })
   }
